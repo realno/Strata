@@ -21,3 +21,11 @@ test('the chat renders tool rows as a disclosure that the compact rule overrides
   const chat = await readFile(new URL('../src/screens/Chat.tsx', import.meta.url), 'utf8');
   assert.match(chat, /className="disclosure tool-summary"/);
 });
+
+test('a tool waiting for approval sits after the reply, at the latest output', async () => {
+  const chat = await readFile(new URL('../src/screens/Chat.tsx', import.meta.url), 'utf8');
+  const assistant = chat.indexOf('st-msg--assistant');
+  const bubble = chat.indexOf('className="st-bubble"', assistant);
+  const waiting = chat.indexOf("filter(t => t.state === 'proposed')", assistant);
+  assert.ok(bubble >= 0 && waiting > bubble, 'the Approve/Deny card comes after the reply');
+});
