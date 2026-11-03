@@ -725,9 +725,6 @@ function MessageView({ message: m, isLast, onEditPrompt, onPreview, onClosePrevi
     const planCard = !!m.planId && storedPlan?.id === m.planId;
     // A reply with activity lines is drawn piece by piece in the order it came; one without is the plain text it always was.
     const grouped = !!m.blocks?.some(b => b.kind === 'group');
-    // Finished tool rows stay where the work happened (above the reply). Only a waiting or running
-    // card sits after the latest output so Approve does not hide under thought.
-    const tools = m.tools ?? [];
     const [sentTime, setSentTime] = useState(() => relTime(m.at));
     const sentQuote = m.role === 'user' ? parseQuoted(m.content) : null;
     if (m.role === 'user') {
